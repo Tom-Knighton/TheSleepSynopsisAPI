@@ -1,11 +1,13 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using TheSleepSynopsisAPI.Data;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+AddServices(builder);
 
 var app = builder.Build();
 
@@ -16,6 +18,34 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "The Sleep Synopsis API");
+    });
+}
+
+static void AddServices(WebApplicationBuilder builder)
+{
+    builder.Services.AddControllers();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+
+    builder.Services.AddDbContext<DataContext>();
+
+    builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("TheSleepSynopsis"));
+
+    builder.Services.AddAuthentication(o =>
+    {
+        o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(o =>
+    {
+        o.SaveToken = true;
+        o.RequireHttpsMetadata = true;
+        o.TokenValidationParameters = new()
+        {
+            ValidIssuer = builder.Configuration["TheSleepSynopsis:Issuer"],
+            ValidAudience = builder.Configuration["TheSleepSynopsis:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TheSleepSynopsis:SecretKey"])),
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
     });
 }
 
