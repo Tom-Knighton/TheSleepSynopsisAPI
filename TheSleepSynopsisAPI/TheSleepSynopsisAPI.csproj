@@ -20,10 +20,12 @@
     <None Remove="Microsoft.EntityFrameworkCore" />
     <None Remove="Pomelo.EntityFrameworkCore.MySql" />
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="Domain\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Domain\" />
     <Folder Include="Data\" />
+    <Folder Include="Domain\Models\" />
   </ItemGroup>
 </Project>
