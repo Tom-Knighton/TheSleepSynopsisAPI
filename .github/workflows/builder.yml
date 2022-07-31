@@ -1,0 +1,35 @@
+name: TheSleepSynopsis-Builder
+
+on:
+  push:
+    branches:
+      - 'develop'
+      - 'master'
+
+jobs:
+  docker-dev:
+    name: Publish - Docker Dev
+    runs-on: thesleepsynopsis-dev
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+            docker stop TSS_API_Dev 2>/dev/null || true
+            docker rm TSS_API_Dev 2>/dev/null || true
+            cp /home/TSS/AppSettings/appsettings.Development.json appsettings.Development.json
+            docker build -t tss-api-dev -f TheSleepSynopsisAPI/Dockerfile.dev .
+            docker create -p 0.0.0.0:6005:6005 --name "TSS_API_Dev" --restart unless-stopped --network="host" tss-api-dev
+            docker start TSS_API_Dev
+  docker-prod:
+    name: Publish - Docker Prod
+    runs-on: thesleepsynopsis
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+            docker stop TSS_API 2>/dev/null || true
+            docker rm TSS_API 2>/dev/null || true
+            cp /home/TSS/AppSettings/appsettings.json appsettings.json
+            docker build -t tss-api-prod -f TheSleepSynopsisAPI/Dockerfile.prod .
+            docker create -p 0.0.0.0:6006:6006 --name "TSS_API" --restart unless-stopped --network="host" tss-api-prod
+            docker start TSS_API
