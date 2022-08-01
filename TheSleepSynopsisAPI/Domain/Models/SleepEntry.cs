@@ -8,6 +8,9 @@ namespace TheSleepSynopsisAPI.Domain.Models
         public DateTime SleepStart { get; set; }
         public DateTime SleepEnd { get; set; }
         public int SleepMood { get; set; }
+
+        public virtual User User { get; set; }
+        public virtual ICollection<Dream> Dreams { get; set; }
     }
 }
 

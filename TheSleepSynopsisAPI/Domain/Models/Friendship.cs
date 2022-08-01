@@ -8,6 +8,9 @@ namespace TheSleepSynopsisAPI.Domain.Models
         public DateTime? DateAccepted { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsBlocked { get; set; }
+
+        public virtual User Initiator { get; set; }
+        public virtual User SecondUser { get; set; }
     }
 }
 

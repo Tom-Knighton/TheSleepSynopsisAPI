@@ -10,6 +10,16 @@ namespace TheSleepSynopsisAPI.Domain.Models
         public UserRole UserRole { get; set; }
 
         public DateTime? DeletedAt { get; set; }
+
+        public virtual UserAuthenticationTokens AuthTokens { get; set; }
+        public virtual ICollection<UserRefreshToken> RefreshTokens { get; set; }
+
+        public virtual ICollection<SleepEntry> SleepEntries { get; set; }
+        public virtual ICollection<Friendship> Following { get; set; }
+        public virtual ICollection<Friendship> Followers { get; set; }
+
+        public virtual UserAuth UserAuth { get; set; }
+
     }
 
     public enum UserRole

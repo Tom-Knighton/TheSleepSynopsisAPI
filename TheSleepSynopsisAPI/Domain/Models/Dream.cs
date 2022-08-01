@@ -5,9 +5,10 @@ namespace TheSleepSynopsisAPI.Domain.Models
     {
         public string DreamUUID { get; set; }
         public string? SleepEntryUUID { get; set; }
-        public string UserUUID { get; set; }
         public string DreamTitle { get; set; }
         public string DreamText { get; set; }
+
+        public virtual SleepEntry SleepEntry { get; set; }
     }
 }
 
