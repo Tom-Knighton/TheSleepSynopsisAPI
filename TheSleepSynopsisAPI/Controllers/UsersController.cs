@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TheSleepSynopsisAPI.Domain.Models;
 using TheSleepSynopsisAPI.Domain.Services;
@@ -9,6 +11,7 @@ using TheSleepSynopsisAPI.Domain.Services;
 namespace TheSleepSynopsisAPI.Controllers
 {
     [Route("[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
@@ -40,11 +43,11 @@ namespace TheSleepSynopsisAPI.Controllers
             return Ok(await _userService.GetUser(userUUID));
         }
 
-        [HttpPost("Search/{username}")]
+        [HttpGet("Search/{query}")]
         [Produces(typeof(ICollection<User>))]
-        public async Task<IActionResult> SearchUserByName(string name, bool matchExactly = false)
+        public async Task<IActionResult> SearchUserByName(string query, bool matchExactly = false)
         {
-            return Ok(await _userService.SearchByName(name, matchExactly));
+            return Ok(await _userService.SearchByName(query, matchExactly));
         }
     }
 }

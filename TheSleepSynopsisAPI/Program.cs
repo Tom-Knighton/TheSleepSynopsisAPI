@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using TheSleepSynopsisAPI.Data;
 using TheSleepSynopsisAPI.Domain.Services;
 using TheSleepSynopsisAPI.Implementations;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,13 @@ if (app.Environment.IsDevelopment())
 
 static void AddServices(WebApplicationBuilder builder)
 {
-    builder.Services.AddControllers();
+    builder.Services
+        .AddControllers()
+        .AddNewtonsoftJson(option => {
+
+            option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            option.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+        }); ;
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
@@ -34,6 +41,8 @@ static void AddServices(WebApplicationBuilder builder)
     builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("TheSleepSynopsis"));
 
     builder.Services.AddScoped<IUserService, UserService>();
+    builder.Services.AddScoped<ITokenService, TokenService>();
+    builder.Services.AddScoped<IAuthService, AuthService>();
 
     builder.Services.AddAuthentication(o =>
     {

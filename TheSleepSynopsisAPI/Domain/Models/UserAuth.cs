@@ -28,5 +28,25 @@ namespace TheSleepSynopsisAPI.Domain.Models
 
         public virtual User User { get; set; }
     }
+
+    public class UserAuthRequest
+    {
+        public string UserAuthString { get; set; }
+        public string UserPass { get; set; }
+    }
+
+    public class NewUserDTO
+    {
+        public string UserName { get; set; }
+        public string UserFullName { get; set; }
+        public string UserPassword { get; set; }
+        public string UserEmail { get; set; }
+    }
+
+    public class RefreshRequestDTO
+    {
+        public string UserUUID { get; set; }
+        public string RefreshToken { get; set; }
+    }
 }
 

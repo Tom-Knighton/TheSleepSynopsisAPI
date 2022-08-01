@@ -15,6 +15,7 @@ namespace TheSleepSynopsisAPI.Implementations
         public async Task<ICollection<User>> GetAllUsers(bool includeDeleted = false)
         {
             return await _context.Users
+                .AsNoTracking()
                 .Where(u => includeDeleted == false ? u.DeletedAt == null : true)
                 .ToListAsync();
         }
@@ -24,6 +25,7 @@ namespace TheSleepSynopsisAPI.Implementations
             return await _context.Users
                 .Where(u => u.UserUUID == userUUID)
                 .Include(u => u.UserAuth)
+                .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
 
@@ -31,7 +33,8 @@ namespace TheSleepSynopsisAPI.Implementations
         {
             name = name.ToLower();
             return await _context.Users
-                .Where(u => (u.UserName.ToLower() == name || (matchExactly && name.Length > 3 && u.UserName.Contains(name))))
+                .Where(u => (u.UserName.ToLower() == name || (!matchExactly && name.Length > 3 && u.UserName.Contains(name))))
+                .AsNoTracking()
                 .Take(10)
                 .ToListAsync();
         }
