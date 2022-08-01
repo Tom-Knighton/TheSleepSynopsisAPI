@@ -27,6 +27,8 @@
     <None Remove="Domain\Models\" />
     <None Remove="Microsoft.EntityFrameworkCore.Design" />
     <None Remove="Migrations\" />
+    <None Remove="Domain\Services\" />
+    <None Remove="Implementations\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -34,5 +36,7 @@
     <Folder Include="Data\" />
     <Folder Include="Domain\Models\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Domain\Services\" />
+    <Folder Include="Implementations\" />
   </ItemGroup>
 </Project>

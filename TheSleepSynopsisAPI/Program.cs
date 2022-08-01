@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using TheSleepSynopsisAPI.Data;
+using TheSleepSynopsisAPI.Domain.Services;
+using TheSleepSynopsisAPI.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +32,8 @@ static void AddServices(WebApplicationBuilder builder)
     builder.Services.AddDbContext<DataContext>();
 
     builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("TheSleepSynopsis"));
+
+    builder.Services.AddScoped<IUserService, UserService>();
 
     builder.Services.AddAuthentication(o =>
     {
