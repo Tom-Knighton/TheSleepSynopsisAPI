@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TheSleepSynopsisAPI.Data;
 using TheSleepSynopsisAPI.Domain.Models;
 using TheSleepSynopsisAPI.Domain.Services;
+using TheSleepSynopsisAPI.Utilities;
 
 namespace TheSleepSynopsisAPI.Controllers
 {
@@ -14,14 +17,16 @@ namespace TheSleepSynopsisAPI.Controllers
     {
         private readonly IAuthService _authService;
         private readonly ITokenService _tokenService;
+        private readonly IUserService _userService;
 
-        public AuthController(IAuthService auth, ITokenService tokens)
+        public AuthController(IAuthService auth, ITokenService tokens, IUserService users)
         {
             _authService = auth;
             _tokenService = tokens;
+            _userService = users;
         }
 
-        [HttpPost("Authenticate")]
+        [HttpPost]
         [Produces(typeof(User))]
         public async Task<IActionResult> Authenticate([FromBody] UserAuthRequest auth, bool needsTokens = true)
         {
@@ -33,6 +38,15 @@ namespace TheSleepSynopsisAPI.Controllers
             {
                 return BadRequest(ex.description);
             }
+        }
+
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("CurrentUser")]
+        [Produces(typeof(User))]
+        public async Task<IActionResult> CurrentUser()
+        {
+            return Ok(await _userService.GetUser(AuthUtilities.GetUUIDFromIdentity(User)));
         }
 
         [HttpPost("Refresh")]

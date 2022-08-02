@@ -34,6 +34,7 @@
     <None Remove="Implementations\" />
     <None Remove="Newtonsoft.Json" />
     <None Remove="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
+    <None Remove="Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -43,5 +44,6 @@
     <Folder Include="Migrations\" />
     <Folder Include="Domain\Services\" />
     <Folder Include="Implementations\" />
+    <Folder Include="Utilities\" />
   </ItemGroup>
 </Project>
