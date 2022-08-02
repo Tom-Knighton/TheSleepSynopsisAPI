@@ -36,7 +36,7 @@ namespace TheSleepSynopsisAPI.Implementations
             SecurityTokenDescriptor tokenDescriptor = new()
             {
                 Subject = new ClaimsIdentity(claims.ToArray()),
-                Expires = DateTime.UtcNow.AddMinutes(2),
+                Expires = DateTime.UtcNow.AddMinutes(20),
                 SigningCredentials = new(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature),
                 Issuer = _settings.Issuer,
                 Audience = _settings.Audience,
