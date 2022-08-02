@@ -46,6 +46,7 @@ namespace TheSleepSynopsisAPI.Implementations
             return await _context.SleepEntries
                 .AsNoTracking()
                 .Where(s => s.UserUUID == userUUID)
+                .Include(s => s.Dreams)
                 .ToListAsync();
         }
 
