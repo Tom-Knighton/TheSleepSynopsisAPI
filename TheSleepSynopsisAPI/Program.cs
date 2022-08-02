@@ -43,6 +43,7 @@ static void AddServices(WebApplicationBuilder builder)
     builder.Services.AddScoped<IUserService, UserService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddScoped<IAuthService, AuthService>();
+    builder.Services.AddScoped<ISleepService, SleepService>();
 
     builder.Services.AddAuthentication(o =>
     {
