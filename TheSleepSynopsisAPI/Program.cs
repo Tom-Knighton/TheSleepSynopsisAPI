@@ -5,6 +5,7 @@ using TheSleepSynopsisAPI.Data;
 using TheSleepSynopsisAPI.Domain.Services;
 using TheSleepSynopsisAPI.Implementations;
 using System.Text;
+using Newtonsoft.Json.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,10 +30,10 @@ static void AddServices(WebApplicationBuilder builder)
     builder.Services
         .AddControllers()
         .AddNewtonsoftJson(option => {
-
             option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             option.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
-        }); ;
+            option.SerializerSettings.Converters.Add(new StringEnumConverter());
+        });
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
