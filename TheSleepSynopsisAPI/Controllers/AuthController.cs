@@ -79,6 +79,20 @@ namespace TheSleepSynopsisAPI.Controllers
                 return BadRequest(ex.description);
             }
         }
+
+        [HttpGet("IsUsernameFree/{username}")]
+        [Produces(typeof(bool))]
+        public async Task<IActionResult> IsUsernameFree(string username)
+        {
+            return Ok(await _authService.IsUsernameFree(username));
+        }
+
+        [HttpGet("IsEmailFree/{email}")]
+        [Produces(typeof(bool))]
+        public async Task<IActionResult> IsUsernameFree(string email)
+        {
+            return Ok(await _authService.IsEmailFree(email));
+        }
     }
 }
 

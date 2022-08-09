@@ -83,7 +83,7 @@ namespace TheSleepSynopsisAPI.Implementations
         {
             return await _context.Users
                 .Include(u => u.UserAuth)
-                .Where(u => u.UserAuth.UserEmail == email)
+                .Where(u => u.UserAuth.UserEmail == email && u.DeletedAt == null)
                 .Select(u => u.UserAuth.UserEmail)
                 .FirstOrDefaultAsync() == null;
         }
@@ -91,7 +91,7 @@ namespace TheSleepSynopsisAPI.Implementations
         public async Task<bool> IsUsernameFree(string username)
         {
             return await _context.Users
-                .Where(u => u.UserName == username)
+                .Where(u => u.UserName == username && u.DeletedAt == null)
                 .Select(u => u.UserName)
                 .FirstOrDefaultAsync() == null;
         }
