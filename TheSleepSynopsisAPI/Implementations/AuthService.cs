@@ -81,17 +81,19 @@ namespace TheSleepSynopsisAPI.Implementations
 
         public async Task<bool> IsEmailFree(string email)
         {
+            email = email.ToLower();
             return await _context.Users
                 .Include(u => u.UserAuth)
-                .Where(u => u.UserAuth.UserEmail == email && u.DeletedAt == null)
+                .Where(u => u.UserAuth.UserEmail.ToLower() == email && u.DeletedAt == null)
                 .Select(u => u.UserAuth.UserEmail)
                 .FirstOrDefaultAsync() == null;
         }
 
         public async Task<bool> IsUsernameFree(string username)
         {
+            username = username.ToLower();
             return await _context.Users
-                .Where(u => u.UserName == username && u.DeletedAt == null)
+                .Where(u => u.UserName.ToLower() == username && u.DeletedAt == null)
                 .Select(u => u.UserName)
                 .FirstOrDefaultAsync() == null;
         }
