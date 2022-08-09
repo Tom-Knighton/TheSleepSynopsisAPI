@@ -89,7 +89,7 @@ namespace TheSleepSynopsisAPI.Controllers
 
         [HttpGet("IsEmailFree/{email}")]
         [Produces(typeof(bool))]
-        public async Task<IActionResult> IsUsernameFree(string email)
+        public async Task<IActionResult> IsEmailFree(string email)
         {
             return Ok(await _authService.IsEmailFree(email));
         }
