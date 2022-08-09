@@ -30,10 +30,14 @@ namespace TheSleepSynopsisAPI.Implementations
             sleepEntry.SleepUUID = newGUID;
             sleepEntry.UserUUID = overrideUserUUID ?? sleepEntry.UserUUID;
 
-            foreach (Dream dream in sleepEntry.Dreams)
+            if (sleepEntry.Dreams != null)
             {
-                dream.DreamUUID = Guid.NewGuid().ToString("N");
-                dream.CreatedAt = DateTime.UtcNow;
+                foreach (Dream dream in sleepEntry.Dreams)
+                {
+                    dream.DreamUUID = Guid.NewGuid().ToString("N");
+                    dream.CreatedAt = DateTime.UtcNow;
+
+                }
             }
 
             await _context.SleepEntries.AddAsync(sleepEntry);
